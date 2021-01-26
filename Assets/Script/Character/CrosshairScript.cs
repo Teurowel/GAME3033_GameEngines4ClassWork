@@ -69,7 +69,7 @@ public class CrosshairScript : MonoBehaviour
         CurrentMousePosition = new Vector2(crosshairXPosition, crosshairYPosition);
 
         transform.position = CurrentMousePosition;
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
     }
 
     private void OnLook(InputAction.CallbackContext delta)
