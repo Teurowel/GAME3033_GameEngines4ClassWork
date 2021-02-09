@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.AI;
 
 namespace Character
 {
@@ -10,12 +11,13 @@ namespace Character
         [SerializeField] private float WalkSpeed;
         [SerializeField] private float RunSpeed;
         [SerializeField] private float JumpForce;
-
+        
 
         //Comp
         PlayerController PlayerController;
         Animator PlayerAnimator;
         Rigidbody PlayerRigidbody;
+        NavMeshAgent PlayerNavMesh;
 
         Vector2 InputVector = Vector2.zero;
         Vector3 MoveDirection = Vector3.zero;
@@ -34,6 +36,7 @@ namespace Character
             PlayerController = GetComponent<PlayerController>();
             PlayerAnimator = GetComponent<Animator>();
             PlayerRigidbody = GetComponent<Rigidbody>();
+            PlayerNavMesh = GetComponent<NavMeshAgent>();
         }
 
         private void Start()
@@ -60,7 +63,10 @@ namespace Character
 
             Vector3 movementDirection = MoveDirection * (currentSpeed * Time.deltaTime);
 
-            transform.position += movementDirection;
+            //Give direction
+            PlayerNavMesh.Move(movementDirection); 
+
+            //transform.position += movementDirection;
         }
 
         public void OnMovement(InputValue value)
@@ -83,10 +89,40 @@ namespace Character
 
         public void OnJump(InputValue button)
         {
+            if(PlayerController.IsJumping)
+            {
+                return;
+            }
+
             PlayerController.IsJumping = true;
             PlayerAnimator.SetBool(IsJumpingHash, true);
 
+            //Disable navmesh
+            // PlayerNavMesh.isStopped = true;
+            PlayerNavMesh.velocity = Vector3.zero;
+            PlayerNavMesh.Move(Vector3.zero);
+            PlayerNavMesh.enabled = false;
+            
+
+            Invoke(nameof(Jump), 0.1f);            
+        }
+
+        public void Jump()
+        {
             PlayerRigidbody.AddForce((transform.up + MoveDirection) * JumpForce, ForceMode.Impulse);
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping) return;
+
+            Debug.Log("Gounrded");
+            //Enable navmesh again
+            PlayerNavMesh.enabled = true;
+            //PlayerNavMesh.isStopped = false;
+
+            PlayerController.IsJumping = false;
+            PlayerAnimator.SetBool(IsJumpingHash, false);
         }
 
 
@@ -106,14 +142,6 @@ namespace Character
         {
             //InputActions.ThirdPerson.Movement.performed -= MovementPerformed;
             //InputActions.Disable();
-        }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping) return;
-
-            PlayerController.IsJumping = false;
-            PlayerAnimator.SetBool(IsJumpingHash, false);
         }
     }
 }
