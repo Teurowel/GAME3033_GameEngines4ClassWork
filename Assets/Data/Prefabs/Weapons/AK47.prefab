@@ -47,18 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GripIKLocation: {fileID: 7106826028768847678}
   WeaponStats:
+    WeaponType: 1
     Name: AK-47
     Damage: 10
     BulletsInClip: 10
     ClipSize: 20
-    TotalBulletsAvailable: 100
+    BulletsAvailable: 100
     FireStartDelay: 0
     FireRate: 0.1
     FireDistance: 100
     Repeating: 1
-    WeaponHitLayer:
+    WeaponHitLayers:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1
 --- !u!1 &6744963024625829515
 GameObject:
   m_ObjectHideFlags: 0

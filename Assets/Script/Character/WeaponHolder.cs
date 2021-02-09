@@ -15,7 +15,10 @@ public class WeaponHolder : MonoBehaviour
 
 
     //Components
+    public PlayerController Controller => PlayerController;
     private PlayerController PlayerController;
+
+    private CrosshairScript PlayerCrosshair;
     private Animator PlayerAnimator;
 
     
@@ -33,11 +36,17 @@ public class WeaponHolder : MonoBehaviour
     private readonly int AimHorizontalHash = Animator.StringToHash("AimHorizontal");
     private readonly int IsFiringHash = Animator.StringToHash("IsFiring");
     private readonly int IsReloadingHash = Animator.StringToHash("IsReloading");
+    private readonly int WeaponTypeHash = Animator.StringToHash("WeaponType");
 
     private void Awake()
     {
         PlayerController = GetComponent<PlayerController>();
         PlayerAnimator = GetComponent<Animator>();
+
+        if (PlayerController)
+        {
+            PlayerCrosshair = PlayerController.CrosshairComponent;
+        }
 
         MainCamera = Camera.main;
     }
@@ -51,9 +60,11 @@ public class WeaponHolder : MonoBehaviour
 
         spawnedWeapon.transform.parent = WeaponSocket;
         EquippedWeapon = spawnedWeapon.GetComponent<WeaponComponent>();
+
         GripLocation = EquippedWeapon.HandPosition;
 
         EquippedWeapon.Initialize(this, PlayerController.CrosshairComponent);
+        PlayerAnimator.SetInteger(WeaponTypeHash, (int)EquippedWeapon.WeaponStats.WeaponType); //Set weapon type to animator to player proper anim
 
         PlayerEvents.Invoke_OnWeaponEquipped(EquippedWeapon);
     }

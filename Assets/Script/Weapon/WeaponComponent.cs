@@ -5,21 +5,27 @@ using System;
 
 namespace Weapons
 {
+    public enum WeaponType
+    {
+        None,
+        MachineGun,
+        Pistol
+    }
+
     [Serializable]
     public struct WeaponStats
     {
+        public WeaponType WeaponType;
         public string Name;
         public float Damage;
         public int BulletsInClip;
         public int ClipSize;
-        public int TotalBulletsAvailable;
-
+        public int BulletsAvailable;
         public float FireStartDelay;
         public float FireRate;
         public float FireDistance;
         public bool Repeating;
-
-        public LayerMask WeaponHitLayer;
+        public LayerMask WeaponHitLayers;
     }
 
     public class WeaponComponent : MonoBehaviour
@@ -32,13 +38,19 @@ namespace Weapons
 
         public WeaponStats WeaponStats;
 
+        protected Camera MainCamera;
         protected WeaponHolder WeaponHolder;
-        protected CrosshairScript Crosshair;
+        protected CrosshairScript CrosshairComponent;
+
+        private void Awake()
+        {
+            MainCamera = Camera.main;
+        }
 
         public void Initialize(WeaponHolder weaponHolder, CrosshairScript crosshair)
         {
             WeaponHolder = weaponHolder;
-            Crosshair = crosshair;
+            CrosshairComponent = crosshair;
         }
 
         public virtual void StartFiring()
@@ -64,7 +76,7 @@ namespace Weapons
 
         protected virtual void FireWeapon()
         {
-
+            WeaponStats.BulletsInClip--;
         }
 
         public void StartReloading()
@@ -81,19 +93,16 @@ namespace Weapons
 
         private void ReloadWeapon()
         {
-            int bulletToReload = WeaponStats.TotalBulletsAvailable - WeaponStats.ClipSize;
-            if(bulletToReload < 0)
+            int bulletsToReload = WeaponStats.ClipSize - WeaponStats.BulletsAvailable;
+            if (bulletsToReload < 0)
             {
-                Debug.Log("Reload - Out of Ammo");
-                WeaponStats.BulletsInClip += WeaponStats.TotalBulletsAvailable;
-                WeaponStats.TotalBulletsAvailable = 0;
+                WeaponStats.BulletsInClip = WeaponStats.ClipSize;
+                WeaponStats.BulletsAvailable -= WeaponStats.ClipSize;
             }
             else
             {
-                Debug.Log("Reload");
-
-                WeaponStats.BulletsInClip = WeaponStats.ClipSize;
-                WeaponStats.TotalBulletsAvailable -= WeaponStats.ClipSize;
+                WeaponStats.BulletsInClip = WeaponStats.BulletsAvailable;
+                WeaponStats.BulletsAvailable = 0;
             }
         }
     }

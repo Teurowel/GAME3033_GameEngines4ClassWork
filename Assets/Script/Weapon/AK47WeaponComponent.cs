@@ -6,50 +6,43 @@ namespace Weapons
 {
     public class AK47WeaponComponent : WeaponComponent
     {
-        private Camera ViewCamera;
-        private RaycastHit HitLocation;
+        private Vector3 HitLocation;
 
-        private void Awake()
+        protected override void FireWeapon()
         {
-            ViewCamera = Camera.main;   
-        }
+            Debug.Log($"{WeaponStats.BulletsInClip} || {WeaponStats.BulletsAvailable}");
 
-        protected new void FireWeapon()
-        {
-            Debug.Log("Firing Weapon");
-
-            if(WeaponStats.BulletsInClip > 0 && !Reloading)
+            if (WeaponStats.BulletsInClip > 0 && !Reloading && !WeaponHolder.Controller.IsRunning)
             {
-                Ray screenRay = ViewCamera.ScreenPointToRay(new Vector3(Crosshair.CurrentMousePosition.x,
-                                                                        Crosshair.CurrentMousePosition.y, 0));
+                base.FireWeapon();
 
-                //If hit nothing
-                if (Physics.Raycast(screenRay, out RaycastHit hit, WeaponStats.FireDistance, WeaponStats.WeaponHitLayer))
-                {
-                    Vector3 RayDirection = HitLocation.point - ViewCamera.transform.position;
-                    RayDirection.Normalize();
+                Ray screenRay = MainCamera.ScreenPointToRay(new Vector3(CrosshairComponent.CurrentMousePosition.x,
+                    CrosshairComponent.CurrentMousePosition.y, 0));
 
-                    Debug.DrawRay(ViewCamera.transform.position, RayDirection * WeaponStats.FireDistance, Color.red);
+                if (!Physics.Raycast(screenRay, out RaycastHit hit,
+                    WeaponStats.FireDistance, WeaponStats.WeaponHitLayers)) return;
 
-                    HitLocation = hit;
-                }
+                HitLocation = hit.point;
+                Debug.Log("Hit");
 
-                WeaponStats.BulletsInClip--;
+                Vector3 hitDirection = hit.point - MainCamera.transform.position;
+                Debug.DrawRay(MainCamera.transform.position, hitDirection.normalized * WeaponStats.FireDistance, Color.red);
             }
-            else
+            else if (WeaponStats.BulletsInClip <= 0)
             {
-                StartReloading();
+                if (!WeaponHolder) return;
+
+                WeaponHolder.StartReloading();
             }
 
-          
+
         }
 
         private void OnDrawGizmos()
         {
-            if(HitLocation.transform)
-            {
-                Gizmos.DrawSphere(HitLocation.point, 0.2f);
-            }
+            if (HitLocation == Vector3.zero) return;
+
+            Gizmos.DrawWireSphere(HitLocation, 0.2f);
         }
     }
 }
