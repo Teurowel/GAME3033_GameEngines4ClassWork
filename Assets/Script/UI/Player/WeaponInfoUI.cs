@@ -42,7 +42,7 @@ public class WeaponInfoUI : MonoBehaviour
         if (EquippedWeapon != null)
         {
             CurrentClipText.text = EquippedWeapon.WeaponStats.BulletsInClip.ToString();
-            TotalAmmoText.text = EquippedWeapon.WeaponStats.BulletsAvailable.ToString();
+            TotalAmmoText.text = EquippedWeapon.WeaponStats.TotalBulletsAvailable.ToString();
         }
     }
 }

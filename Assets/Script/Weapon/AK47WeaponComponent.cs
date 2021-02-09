@@ -10,9 +10,9 @@ namespace Weapons
 
         protected override void FireWeapon()
         {
-            Debug.Log($"{WeaponStats.BulletsInClip} || {WeaponStats.BulletsAvailable}");
+            Debug.Log($"{WeaponStats.BulletsInClip} || {WeaponStats.TotalBulletsAvailable}");
 
-            if (WeaponStats.BulletsInClip > 0 && !Reloading && !WeaponHolder.Controller.IsRunning)
+            if (WeaponStats.BulletsInClip > 0 && !Reloading && !WeaponHolder.Controller.IsJumping)
             {
                 base.FireWeapon();
 

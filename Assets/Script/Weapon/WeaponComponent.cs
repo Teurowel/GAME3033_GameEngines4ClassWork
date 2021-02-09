@@ -20,7 +20,7 @@ namespace Weapons
         public float Damage;
         public int BulletsInClip;
         public int ClipSize;
-        public int BulletsAvailable;
+        public int TotalBulletsAvailable;
         public float FireStartDelay;
         public float FireRate;
         public float FireDistance;
@@ -60,6 +60,7 @@ namespace Weapons
             //Check repeating
             if(WeaponStats.Repeating)
             {
+                CancelInvoke(nameof(FireWeapon));
                 InvokeRepeating(nameof(FireWeapon), WeaponStats.FireStartDelay, WeaponStats.FireRate);
             }
             else
@@ -79,30 +80,32 @@ namespace Weapons
             WeaponStats.BulletsInClip--;
         }
 
-        public void StartReloading()
+        public virtual void StartReloading()
         {
             Reloading = true;
             ReloadWeapon();
         }
 
-        public void StopReloading()
+        public virtual void StopReloading()
         {
             Reloading = false;
         }
 
 
-        private void ReloadWeapon()
+        protected virtual void ReloadWeapon()
         {
-            int bulletsToReload = WeaponStats.ClipSize - WeaponStats.BulletsAvailable;
+            int bulletsToReload = WeaponStats.ClipSize - WeaponStats.TotalBulletsAvailable;
             if (bulletsToReload < 0)
             {
+                //We have more bulllet than clip size
                 WeaponStats.BulletsInClip = WeaponStats.ClipSize;
-                WeaponStats.BulletsAvailable -= WeaponStats.ClipSize;
+                WeaponStats.TotalBulletsAvailable -= WeaponStats.ClipSize;
             }
             else
             {
-                WeaponStats.BulletsInClip = WeaponStats.BulletsAvailable;
-                WeaponStats.BulletsAvailable = 0;
+                //We have not enough bullet than clip size
+                WeaponStats.BulletsInClip = WeaponStats.TotalBulletsAvailable;
+                WeaponStats.TotalBulletsAvailable = 0;
             }
         }
     }

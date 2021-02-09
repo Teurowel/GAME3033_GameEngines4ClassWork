@@ -52,7 +52,7 @@ MonoBehaviour:
     Damage: 10
     BulletsInClip: 10
     ClipSize: 20
-    BulletsAvailable: 100
+    TotalBulletsAvailable: 100
     FireStartDelay: 0
     FireRate: 0.1
     FireDistance: 100
