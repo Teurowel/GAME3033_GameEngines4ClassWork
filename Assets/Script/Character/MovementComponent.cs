@@ -24,6 +24,7 @@ namespace Character
 
         Vector2 InputVector = Vector2.zero;
         Vector3 MoveDirection = Vector3.zero;
+        Vector3 NextPositionCheck = Vector3.zero;
 
         //GameInputActions InputActions;
 
@@ -52,24 +53,44 @@ namespace Character
             //If we are jumping, return
             if (PlayerController.IsJumping) return;
 
-            //If we don't have any input vector, return
-            if (!(InputVector.magnitude > 0))
-            {
-                MoveDirection = Vector3.zero;
-            }
-            
             //Calculate move direction
             MoveDirection = transform.forward * InputVector.y + transform.right * InputVector.x;
 
             //If we are runnig, use runspeed otherwise use walkspeed
-            float currentSpeed = PlayerController.IsRunning ? RunSpeed : WalkSpeed;
-
+            float currentSpeed = PlayerController.IsRunning ? RunSpeed : WalkSpeed;    
+            
             Vector3 movementDirection = MoveDirection * (currentSpeed * Time.deltaTime);
 
-            //Give direction
-            PlayerNavMesh.Move(movementDirection); 
+            NextPositionCheck = transform.position + MoveDirection;
 
-            //transform.position += movementDirection;
+            if(NavMesh.SamplePosition(NextPositionCheck, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+            {
+                transform.position += movementDirection;
+            }
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (!other.collider.CompareTag("Ground") || !PlayerController.IsJumping)
+            {
+                return;
+            }
+
+            //Debug.Log("Gounrded");
+            //Enable navmesh again
+            //PlayerNavMesh.enabled = true;
+            //PlayerNavMesh.isStopped = false;
+
+            PlayerController.IsJumping = false;
+            PlayerAnimator.SetBool(IsJumpingHash, false);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if(NextPositionCheck != Vector3.zero)
+            {
+                Gizmos.DrawWireSphere(NextPositionCheck, 0.5f);
+            }
         }
 
         public void OnMovement(InputValue value)
@@ -149,18 +170,7 @@ namespace Character
             PlayerRigidbody.AddForce((transform.up + MoveDirection) * JumpForce, ForceMode.Impulse);
         }
 
-        private void OnCollisionEnter(Collision other)
-        {
-            //if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping) return;
 
-            //Debug.Log("Gounrded");
-            //Enable navmesh again
-            //PlayerNavMesh.enabled = true;
-            //PlayerNavMesh.isStopped = false;
-
-            //PlayerController.IsJumping = false;
-            //PlayerAnimator.SetBool(IsJumpingHash, false);
-        }
 
 
         private void MovementPerformed(InputAction.CallbackContext obj)
