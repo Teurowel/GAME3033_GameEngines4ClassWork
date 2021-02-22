@@ -15,6 +15,7 @@ namespace Character
         [SerializeField] private LayerMask JumpLayerMask; //jump layer mask(ground)
         [SerializeField] private float JumpThreshold = 0.1f; //jump distance threshhold
         [SerializeField] private float JumpLandingCheckDelay = 0.1f; //delay before start landing check
+        [SerializeField] private float MoveDirectionBuffer = 2.0f;
 
         //Comp
         PlayerController PlayerController;
@@ -45,7 +46,7 @@ namespace Character
 
         private void Start()
         {
-            Debug.Log("MovementComponent Start");
+            //Debug.Log("MovementComponent Start");
         }
 
         private void Update()
@@ -61,7 +62,7 @@ namespace Character
             
             Vector3 movementDirection = MoveDirection * (currentSpeed * Time.deltaTime);
 
-            NextPositionCheck = transform.position + MoveDirection;
+            NextPositionCheck = transform.position + MoveDirection * MoveDirectionBuffer;
 
             if(NavMesh.SamplePosition(NextPositionCheck, out NavMeshHit hit, 1f, NavMesh.AllAreas))
             {
