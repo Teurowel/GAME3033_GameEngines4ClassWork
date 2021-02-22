@@ -30,6 +30,7 @@ Transform:
   m_Children:
   - {fileID: 5228961981088521231}
   - {fileID: 7106826028768847678}
+  - {fileID: 7089815204665892423}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GripIKLocation: {fileID: 7106826028768847678}
+  ParticleSpawnLocation: {fileID: 7089815204665892423}
   WeaponStats:
     WeaponType: 1
     Name: AK-47
@@ -60,6 +62,37 @@ MonoBehaviour:
     WeaponHitLayers:
       serializedVersion: 2
       m_Bits: 1
+  FiringAnimation: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+--- !u!1 &5373267019059024476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7089815204665892423}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7089815204665892423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373267019059024476}
+  m_LocalRotation: {x: -0.41551456, y: 0.36180985, z: -0.5090955, w: 0.6612588}
+  m_LocalPosition: {x: 0.795, y: 0.1922, z: 0.183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5232984591668622620}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -10.436, y: 66.454, z: -82.031}
 --- !u!1 &6744963024625829515
 GameObject:
   m_ObjectHideFlags: 0

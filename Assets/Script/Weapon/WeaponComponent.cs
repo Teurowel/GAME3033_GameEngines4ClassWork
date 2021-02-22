@@ -32,15 +32,19 @@ namespace Weapons
     {
         public Transform HandPosition => GripIKLocation;
         [SerializeField] private Transform GripIKLocation;
+        [SerializeField] protected Transform ParticleSpawnLocation;
 
         public bool Firing { get; private set; }
         public bool Reloading { get; private set; }
 
         public WeaponStats WeaponStats;
 
+        [SerializeField] protected GameObject FiringAnimation;
+
         protected Camera MainCamera;
         protected WeaponHolder WeaponHolder;
         protected CrosshairScript CrosshairComponent;
+        protected ParticleSystem FiringEffect; //gun shot fx
 
         private void Awake()
         {
@@ -72,6 +76,13 @@ namespace Weapons
         public virtual void StopFiring()
         {
             Firing = false;
+
+            //Destroy firing effect
+            if (FiringEffect != null)
+            {
+                Destroy(FiringEffect.gameObject);
+            }
+
             CancelInvoke(nameof(FireWeapon));
         }
 
@@ -94,6 +105,12 @@ namespace Weapons
 
         protected virtual void ReloadWeapon()
         {
+            //Destroy firing effect
+            if(FiringEffect != null)
+            {
+                Destroy(FiringEffect.gameObject);
+            }
+
             int bulletsToReload = WeaponStats.ClipSize - WeaponStats.TotalBulletsAvailable;
             if (bulletsToReload < 0)
             {
