@@ -11,7 +11,10 @@ namespace Character
         [SerializeField] private float WalkSpeed;
         [SerializeField] private float RunSpeed;
         [SerializeField] private float JumpForce;
-        
+
+        [SerializeField] private LayerMask JumpLayerMask; //jump layer mask(ground)
+        [SerializeField] private float JumpThreshold = 0.1f; //jump distance threshhold
+        [SerializeField] private float JumpLandingCheckDelay = 0.1f; //delay before start landing check
 
         //Comp
         PlayerController PlayerController;
@@ -94,17 +97,51 @@ namespace Character
                 return;
             }
 
-            PlayerController.IsJumping = true;
-            PlayerAnimator.SetBool(IsJumpingHash, true);
-
-            //Disable navmesh
-            // PlayerNavMesh.isStopped = true;
-            PlayerNavMesh.velocity = Vector3.zero;
-            PlayerNavMesh.Move(Vector3.zero);
+            //stop nav mesh first, because nav mesh doesn't allow jump
+            PlayerNavMesh.isStopped = true;
             PlayerNavMesh.enabled = false;
-            
 
-            Invoke(nameof(Jump), 0.1f);            
+            PlayerController.IsJumping = button.isPressed; //set bool
+
+            PlayerAnimator.SetBool(IsJumpingHash, button.isPressed); //player animation
+
+            ////Disable navmesh
+            //// PlayerNavMesh.isStopped = true;
+            //PlayerNavMesh.velocity = Vector3.zero;
+            //PlayerNavMesh.Move(Vector3.zero);
+            //PlayerNavMesh.enabled = false;
+
+            PlayerRigidbody.AddForce((transform.up + MoveDirection) * JumpForce, ForceMode.Impulse);
+            //Invoke(nameof(Jump), 0.1f);            
+
+            //Keep invoking landing check
+            InvokeRepeating(nameof(LandingCheck), JumpLandingCheckDelay, 0.1f);
+        }
+
+        private void LandingCheck()
+        {
+            //Do ray cast
+            if(Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 100.0f, JumpLayerMask))
+            {
+                Debug.Log(hit.distance); 
+
+                //If we jump higher than threshold
+                if(!(hit.distance < JumpThreshold) || !PlayerController.IsJumping)
+                {
+                    return;
+                }
+                
+                //enable navmesh again
+                PlayerNavMesh.enabled = true;
+                PlayerNavMesh.isStopped = false;
+
+                //Set jump to flase
+                PlayerController.IsJumping = false;
+                PlayerAnimator.SetBool(IsJumpingHash, false);
+
+                CancelInvoke(nameof(LandingCheck));
+                
+            }
         }
 
         public void Jump()
@@ -114,15 +151,15 @@ namespace Character
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping) return;
+            //if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping) return;
 
-            Debug.Log("Gounrded");
+            //Debug.Log("Gounrded");
             //Enable navmesh again
-            PlayerNavMesh.enabled = true;
+            //PlayerNavMesh.enabled = true;
             //PlayerNavMesh.isStopped = false;
 
-            PlayerController.IsJumping = false;
-            PlayerAnimator.SetBool(IsJumpingHash, false);
+            //PlayerController.IsJumping = false;
+            //PlayerAnimator.SetBool(IsJumpingHash, false);
         }
 
 

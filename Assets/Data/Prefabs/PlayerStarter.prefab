@@ -1292,6 +1292,22 @@ PrefabInstance:
       propertyPath: CrosshairScript
       value: 
       objectReference: {fileID: 3371970922102517017}
+    - target: {fileID: 3589313916657590378, guid: 078783c66677a1e46be1ce7d42f8e504, type: 3}
+      propertyPath: JumpForce
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589313916657590378, guid: 078783c66677a1e46be1ce7d42f8e504, type: 3}
+      propertyPath: JumpLayerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589313916657590378, guid: 078783c66677a1e46be1ce7d42f8e504, type: 3}
+      propertyPath: JumpThreshold
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3589313916657590378, guid: 078783c66677a1e46be1ce7d42f8e504, type: 3}
+      propertyPath: JumpLandingCheckDelay
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 078783c66677a1e46be1ce7d42f8e504, type: 3}
 --- !u!4 &3371970921810672560 stripped
