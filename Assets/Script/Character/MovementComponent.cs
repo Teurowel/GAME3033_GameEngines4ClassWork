@@ -21,7 +21,7 @@ namespace Character
         PlayerController PlayerController;
         Animator PlayerAnimator;
         Rigidbody PlayerRigidbody;
-        NavMeshAgent PlayerNavMesh;
+        //NavMeshAgent PlayerNavMesh;
 
         Vector2 InputVector = Vector2.zero;
         Vector3 MoveDirection = Vector3.zero;
@@ -41,7 +41,7 @@ namespace Character
             PlayerController = GetComponent<PlayerController>();
             PlayerAnimator = GetComponent<Animator>();
             PlayerRigidbody = GetComponent<Rigidbody>();
-            PlayerNavMesh = GetComponent<NavMeshAgent>();
+            //PlayerNavMesh = GetComponent<NavMeshAgent>();
         }
 
         private void Start()
@@ -120,8 +120,8 @@ namespace Character
             }
 
             //stop nav mesh first, because nav mesh doesn't allow jump
-            PlayerNavMesh.isStopped = true;
-            PlayerNavMesh.enabled = false;
+            //PlayerNavMesh.isStopped = true;
+            //PlayerNavMesh.enabled = false;
 
             PlayerController.IsJumping = button.isPressed; //set bool
 
@@ -132,12 +132,12 @@ namespace Character
             //PlayerNavMesh.velocity = Vector3.zero;
             //PlayerNavMesh.Move(Vector3.zero);
             //PlayerNavMesh.enabled = false;
-
+            Debug.Log(MoveDirection);
             PlayerRigidbody.AddForce((transform.up + MoveDirection) * JumpForce, ForceMode.Impulse);
             //Invoke(nameof(Jump), 0.1f);            
 
             //Keep invoking landing check
-            InvokeRepeating(nameof(LandingCheck), JumpLandingCheckDelay, 0.1f);
+            //InvokeRepeating(nameof(LandingCheck), JumpLandingCheckDelay, 0.1f);
         }
 
         private void LandingCheck()
@@ -154,8 +154,8 @@ namespace Character
                 }
                 
                 //enable navmesh again
-                PlayerNavMesh.enabled = true;
-                PlayerNavMesh.isStopped = false;
+                //PlayerNavMesh.enabled = true;
+                //PlayerNavMesh.isStopped = false;
 
                 //Set jump to flase
                 PlayerController.IsJumping = false;
