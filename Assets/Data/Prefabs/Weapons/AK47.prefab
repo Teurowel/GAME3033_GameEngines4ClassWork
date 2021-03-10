@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5232984591668622619
+--- !u!1 &1721228911440997524
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,70 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5232984591668622620}
-  - component: {fileID: 3227640973724420137}
-  m_Layer: 0
-  m_Name: AK47
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5232984591668622620
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5232984591668622619}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 5228961981088521231}
-  - {fileID: 7106826028768847678}
-  - {fileID: 7089815204665892423}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3227640973724420137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5232984591668622619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28a4a6a883f5be40a6e922582e91ba5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GripIKLocation: {fileID: 7106826028768847678}
-  ParticleSpawnLocation: {fileID: 7089815204665892423}
-  WeaponStats:
-    WeaponType: 1
-    Name: AK-47
-    Damage: 10
-    BulletsInClip: 10
-    ClipSize: 20
-    TotalBulletsAvailable: 100
-    FireStartDelay: 0
-    FireRate: 0.1
-    FireDistance: 100
-    Repeating: 1
-    WeaponHitLayers:
-      serializedVersion: 2
-      m_Bits: 1
-  FiringAnimation: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
---- !u!1 &5373267019059024476
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7089815204665892423}
+  - component: {fileID: 6329571781353064181}
   m_Layer: 0
   m_Name: ParticleSpawnPoint
   m_TagString: Untagged
@@ -79,21 +16,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7089815204665892423
+--- !u!4 &6329571781353064181
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5373267019059024476}
-  m_LocalRotation: {x: -0.41551456, y: 0.36180985, z: -0.5090955, w: 0.6612588}
-  m_LocalPosition: {x: 0.795, y: 0.1922, z: 0.183}
+  m_GameObject: {fileID: 1721228911440997524}
+  m_LocalRotation: {x: -0.41971502, y: 0.36507675, z: -0.54450583, w: 0.62775135}
+  m_LocalPosition: {x: 0.7443, y: 0.1418, z: 0.1611}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5232984591668622620}
+  m_Father: {fileID: 251943878890399477}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -10.436, y: 66.454, z: -82.031}
---- !u!1 &6744963024625829515
+  m_LocalEulerAnglesHint: {x: -367.434, y: 67.397, z: 273.163}
+--- !u!1 &2523273983844142317
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,87 +38,150 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7106826028768847678}
+  - component: {fileID: 251943878890399477}
+  - component: {fileID: 8921768884621329588}
   m_Layer: 0
-  m_Name: HandPosition
+  m_Name: AK47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7106826028768847678
+--- !u!4 &251943878890399477
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6744963024625829515}
-  m_LocalRotation: {x: -0.41382706, y: 0.3592008, z: -0.50047064, w: 0.6702619}
-  m_LocalPosition: {x: 0.436, y: 0.1551, z: 0.1074}
+  m_GameObject: {fileID: 2523273983844142317}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1762564141393932844}
+  - {fileID: 2530205372850068812}
+  - {fileID: 6329571781353064181}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8921768884621329588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523273983844142317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca5978a90b306544e91f69e574f74d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GripIKLocation: {fileID: 2530205372850068812}
+  ParticleSpawnLocation: {fileID: 6329571781353064181}
+  FiringAnimation: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+  WeaponStats:
+    WeaponType: 2
+    WeaponName: AK-47
+    Damage: 20
+    BulletsInClip: 10
+    ClipSize: 20
+    BulletsAvailable: 20
+    FireStartDelay: 0
+    FireRate: 0.2
+    FireDistance: 100
+    Repeating: 1
+    WeaponHitLayers:
+      serializedVersion: 2
+      m_Bits: 55
+--- !u!1 &5447685124877711682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2530205372850068812}
+  m_Layer: 0
+  m_Name: GripLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2530205372850068812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5447685124877711682}
+  m_LocalRotation: {x: -0.43601993, y: 0.3502968, z: -0.4955925, w: 0.66450506}
+  m_LocalPosition: {x: 0.383, y: 0.173, z: 0.125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5232984591668622620}
+  m_Father: {fileID: 251943878890399477}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -11.257, y: 65.966, z: -80.815}
---- !u!1001 &5232984592417875357
+  m_LocalEulerAnglesHint: {x: -13.431, y: 67.364, z: -82.405}
+--- !u!1001 &1764188718404815806
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 5232984591668622620}
+    m_TransformParent: {fileID: 251943878890399477}
     m_Modifications:
     - target: {fileID: 1900586067242068, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
       propertyPath: m_Name
       value: SM_Wep_AssaultRifle_01
       objectReference: {fileID: 0}
     - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.107
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.042
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.033
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.42120698
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.34669527
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.5189066
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.6581208
-      objectReference: {fileID: 0}
-    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.027
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.027
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.63105726
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.42758322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.36282402
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5360019
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -11.222
+      value: -8.668
       objectReference: {fileID: 0}
     - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 65.628
+      value: 67.954
       objectReference: {fileID: 0}
     - target: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -83.758
+      value: -86.535
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
---- !u!4 &5228961981088521231 stripped
+--- !u!4 &1762564141393932844 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4023067158591890, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
-  m_PrefabInstance: {fileID: 5232984592417875357}
+  m_PrefabInstance: {fileID: 1764188718404815806}
   m_PrefabAsset: {fileID: 0}
