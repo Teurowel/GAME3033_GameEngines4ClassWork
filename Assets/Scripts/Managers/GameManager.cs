@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public bool CursorActive { get; private set; } = true;
 
+    public string GameSaveName { get; private set; } = "";
 
     private void Awake()
     {
@@ -38,6 +39,16 @@ public class GameManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void SetActiveSave(string saveName)
+    {
+        if(string.IsNullOrEmpty(saveName))
+        {
+            return;
+        }
+
+        GameSaveName = saveName;
     }
 
     private void OnEnable()
