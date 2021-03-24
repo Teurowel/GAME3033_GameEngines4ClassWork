@@ -21,6 +21,9 @@ namespace UI.Menus
             {
                 Debug.LogError("Menu Controller not found!");
             }
+
+            //Enable mouse cursor
+            AppEvents.Invoke_OnMouseCursorEnable(true);
         }
 
         public void ReturnToRootMenu()

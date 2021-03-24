@@ -10,7 +10,7 @@ namespace Character
     public class WeaponHolder : InputMonoBehaviour
     {
         [Header("Weapon To Spawn"), SerializeField]
-        private GameObject WeaponToSpawn;
+        private WeaponScriptable WeaponToSpawn;
 
         [SerializeField] private Transform WeaponSocketLocation;
 
@@ -53,18 +53,10 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            GameObject spawnedWeapon = Instantiate(WeaponToSpawn, WeaponSocketLocation.position, WeaponSocketLocation.rotation, WeaponSocketLocation);
-            if (!spawnedWeapon) return;
-            
-            EquippedWeapon = spawnedWeapon.GetComponent<WeaponComponent>();
-            if (!EquippedWeapon) return;
-            
-            EquippedWeapon.Initialize(this, PlayerCrosshair);
-            
-            PlayerEvents.Invoke_OnWeaponEquipped(EquippedWeapon);
-            
-            GripIKLocation = EquippedWeapon.GripLocation;
-            PlayerAnimator.SetInteger(WeaponTypeHash, (int)EquippedWeapon.WeaponInformation.WeaponType);
+            //if (WeaponToSpawn)
+            //{
+            //    EquipWeapon(WeaponToSpawn);
+            //}
         }
 
         private void OnAnimatorIK(int layerIndex)
@@ -160,6 +152,29 @@ namespace Character
             GameInput.PlayerActionMap.Fire.performed -= OnFire;
         }
 
+        public void EquipWeapon(WeaponScriptable weaponScriptable)
+        {
+            //Spawn waepon from weapon prefab
+            GameObject spawnedWeapon = Instantiate(weaponScriptable.ItemPrefab, WeaponSocketLocation.position, WeaponSocketLocation.rotation, WeaponSocketLocation);
+            if (!spawnedWeapon) return;
 
+            //Get weapon component
+            EquippedWeapon = spawnedWeapon.GetComponent<WeaponComponent>();
+            if (!EquippedWeapon) return;
+
+            //Initialize weapon with weapon scriptable
+            EquippedWeapon.Initialize(this, weaponScriptable);
+
+            PlayerEvents.Invoke_OnWeaponEquipped(EquippedWeapon);
+
+            GripIKLocation = EquippedWeapon.GripLocation;
+            PlayerAnimator.SetInteger(WeaponTypeHash, (int)EquippedWeapon.WeaponInformation.WeaponType);
+        }
+
+        public void UnEquipWeapon()
+        {
+            Destroy(EquippedWeapon.gameObject);
+            EquippedWeapon = null;
+        }
     }
 }
