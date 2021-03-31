@@ -69,6 +69,15 @@ public class ItemPickUpComponent : MonoBehaviour
             return;
         }
 
-        ItemInsatnce.UseItem(other.GetComponent<PlayerController>());
+        /////"abea" + "abae" is expensive, use below one
+        Debug.Log($"{PickUpItem.Name} - Picked Up");
+
+        InventoryComponent playerInventory = other.GetComponent<InventoryComponent>();
+        if(playerInventory != null)
+        {
+            playerInventory.AddItem(ItemInsatnce, Amount);
+        }
+
+        Destroy(gameObject);
     }
 }

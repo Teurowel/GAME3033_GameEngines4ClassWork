@@ -7,7 +7,7 @@ using Weapons;
 
 namespace Character
 {
-    public class WeaponHolder : InputMonoBehaviour
+    public class WeaponHolder : MonoBehaviour// InputMonoBehaviour
     {
         [Header("Weapon To Spawn"), SerializeField]
         private WeaponScriptable WeaponToSpawn;
@@ -36,10 +36,8 @@ namespace Character
         private static readonly int WeaponTypeHash = Animator.StringToHash("WeaponType");
 
 
-        private new void Awake()
-        {
-            base.Awake();
-            
+        private void Awake()
+        {            
             PlayerAnimator = GetComponent<Animator>();
             PlayerController = GetComponent<PlayerController>();
             if (PlayerController)
@@ -53,22 +51,33 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            //if (WeaponToSpawn)
-            //{
-            //    EquipWeapon(WeaponToSpawn);
-            //}
+            if (WeaponToSpawn)
+            {
+                EquipWeapon(WeaponToSpawn);
+            }
         }
 
         private void OnAnimatorIK(int layerIndex)
         {
+            if(GripIKLocation == null)
+            {
+                return;
+            }
+
             PlayerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
             PlayerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, GripIKLocation.position);
         }
         
-        private void OnFire(InputAction.CallbackContext pressed)
+        private void OnFire(InputValue obj)
         {
-            FiringPressed = pressed.ReadValue<float>() == 1f ? true : false;
-            
+            FiringPressed = obj.isPressed;
+
+            if(EquippedWeapon == null)
+            {
+                return;
+            }
+
+
             if (FiringPressed)
                 StartFiring();
             else
@@ -97,6 +106,11 @@ namespace Character
         
         private void OnReload(InputValue button)
         {
+            if (EquippedWeapon == null)
+            {
+                return;
+            }
+
             StartReloading();
         }
 
@@ -129,7 +143,7 @@ namespace Character
             WasFiring = false;
         }
         
-        private void OnLook(InputAction.CallbackContext obj)
+        private void OnLook(InputValue obj)
         {
             Vector3 independentMousePosition = ViewCamera.ScreenToViewportPoint(PlayerCrosshair.CurrentAimPosition);
             
@@ -137,20 +151,20 @@ namespace Character
             PlayerAnimator.SetFloat(AimVerticalHash, independentMousePosition.y);
         }
         
-        private new void OnEnable()
-        {
-            base.OnEnable();
-            GameInput.PlayerActionMap.Look.performed += OnLook;
-            GameInput.PlayerActionMap.Fire.performed += OnFire;
+        //private new void OnEnable()
+        //{
+        //    base.OnEnable();
+        //    GameInput.PlayerActionMap.Look.performed += OnLook;
+        //    GameInput.PlayerActionMap.Fire.performed += OnFire;
             
-        }
+        //}
         
-        private new void OnDisable()
-        {
-            base.OnDisable();
-            GameInput.PlayerActionMap.Look.performed -= OnLook;
-            GameInput.PlayerActionMap.Fire.performed -= OnFire;
-        }
+        //private new void OnDisable()
+        //{
+        //    base.OnDisable();
+        //    GameInput.PlayerActionMap.Look.performed -= OnLook;
+        //    GameInput.PlayerActionMap.Fire.performed -= OnFire;
+        //}
 
         public void EquipWeapon(WeaponScriptable weaponScriptable)
         {

@@ -3901,7 +3901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 20
   FollowTarget: {fileID: 0}
-  _Debug: 0
+  _Debug: 1
 --- !u!114 &146515190254360176
 MonoBehaviour:
   m_ObjectHideFlags: 0

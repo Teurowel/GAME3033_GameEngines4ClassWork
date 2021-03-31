@@ -30,6 +30,7 @@ namespace Character
         public bool IsReloading;
         public bool IsJumping;
         public bool IsRunning;
+        public bool InInventory;
 
         private void Awake()
         {
@@ -76,6 +77,39 @@ namespace Character
         {
             PauseManager.Instance.UnPauseGame();
         }
+
+        public void OnInventory(InputValue button)
+        {
+            //If we alreday opend inventory, close inventory
+            if(InInventory)
+            {
+                InInventory = false;
+                OpenInventory(false);
+            }
+            //Open inventory
+            else
+            {
+                InInventory = true;
+                OpenInventory(true);
+            }
+        }
+
+        private void OpenInventory(bool open)
+        {
+            //Pause game and open inventory
+            if(open == true)
+            {
+                PauseManager.Instance.PauseGame();
+                GameUIController.EnableInventoryMenu();
+            }
+            //Unpause game and open game menu;
+            else
+            {
+                PauseManager.Instance.UnPauseGame();
+                GameUIController.EnableGameMenu();
+            }
+        }
+
 
         public void PauseGame()
         {
