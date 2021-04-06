@@ -6,11 +6,11 @@ using Systems.Health_System;
 [RequireComponent(typeof(ZombieComponent))]
 public class ZombieHealthComponent : HealthComponent
 {
-    StateMachine ZombieStateMachine;
+    ZombieStateMachine ZombieStateMachine;
 
     private void Awake()
     {
-        ZombieStateMachine = GetComponent<StateMachine>();
+        ZombieStateMachine = GetComponent<ZombieStateMachine>();
     }
 
     public override void Destroy()

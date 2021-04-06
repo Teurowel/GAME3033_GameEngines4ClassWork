@@ -81,6 +81,22 @@ public class @MyInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""c237f933-1574-4ac3-a6d2-cba0326e41f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1184452-a9ef-43e5-bca5-e878b20ab9d2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -215,6 +231,28 @@ public class @MyInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f650b9fb-1e07-48f2-8632-e9dbb5f7e49d"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b4d0611-edee-4d09-8f8e-eaaba6fdc578"",
+                    ""path"": ""<Keyboard>/f6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -277,6 +315,8 @@ public class @MyInputActions : IInputActionCollection, IDisposable
         m_PlayerActionMap_Reload = m_PlayerActionMap.FindAction("Reload", throwIfNotFound: true);
         m_PlayerActionMap_PauseGame = m_PlayerActionMap.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerActionMap_Inventory = m_PlayerActionMap.FindAction("Inventory", throwIfNotFound: true);
+        m_PlayerActionMap_Save = m_PlayerActionMap.FindAction("Save", throwIfNotFound: true);
+        m_PlayerActionMap_Load = m_PlayerActionMap.FindAction("Load", throwIfNotFound: true);
         // PauseActionMap
         m_PauseActionMap = asset.FindActionMap("PauseActionMap", throwIfNotFound: true);
         m_PauseActionMap_UnPauseGame = m_PauseActionMap.FindAction("UnPauseGame", throwIfNotFound: true);
@@ -338,6 +378,8 @@ public class @MyInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActionMap_Reload;
     private readonly InputAction m_PlayerActionMap_PauseGame;
     private readonly InputAction m_PlayerActionMap_Inventory;
+    private readonly InputAction m_PlayerActionMap_Save;
+    private readonly InputAction m_PlayerActionMap_Load;
     public struct PlayerActionMapActions
     {
         private @MyInputActions m_Wrapper;
@@ -350,6 +392,8 @@ public class @MyInputActions : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_PlayerActionMap_Reload;
         public InputAction @PauseGame => m_Wrapper.m_PlayerActionMap_PauseGame;
         public InputAction @Inventory => m_Wrapper.m_PlayerActionMap_Inventory;
+        public InputAction @Save => m_Wrapper.m_PlayerActionMap_Save;
+        public InputAction @Load => m_Wrapper.m_PlayerActionMap_Load;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -383,6 +427,12 @@ public class @MyInputActions : IInputActionCollection, IDisposable
                 @Inventory.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInventory;
                 @Inventory.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInventory;
                 @Inventory.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInventory;
+                @Save.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnSave;
+                @Save.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnSave;
+                @Save.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnSave;
+                @Load.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnLoad;
+                @Load.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnLoad;
+                @Load.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnLoad;
             }
             m_Wrapper.m_PlayerActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -411,6 +461,12 @@ public class @MyInputActions : IInputActionCollection, IDisposable
                 @Inventory.started += instance.OnInventory;
                 @Inventory.performed += instance.OnInventory;
                 @Inventory.canceled += instance.OnInventory;
+                @Save.started += instance.OnSave;
+                @Save.performed += instance.OnSave;
+                @Save.canceled += instance.OnSave;
+                @Load.started += instance.OnLoad;
+                @Load.performed += instance.OnLoad;
+                @Load.canceled += instance.OnLoad;
             }
         }
     }
@@ -466,6 +522,8 @@ public class @MyInputActions : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnSave(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
     }
     public interface IPauseActionMapActions
     {

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public bool CursorActive { get; private set; } = true;
 
-    public string GameSaveName { get; private set; } = "";
+    public string SelectedSaveName { set; get; }
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        GameSaveName = saveName;
+        SelectedSaveName = saveName;
     }
 
     private void OnEnable()

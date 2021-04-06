@@ -48,6 +48,11 @@ namespace Systems.Health_System
                 Destroy();
             }
         }
+
+        public void SetCurrentHealth(float Health)
+        {
+            CurrentHealth = Health;
+        }
     }
 
 }

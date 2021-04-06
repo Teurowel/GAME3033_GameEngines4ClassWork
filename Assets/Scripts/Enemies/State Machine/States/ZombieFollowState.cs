@@ -8,7 +8,7 @@ public class ZombieFollowState : ZombieStates
     private static readonly int MovementZHash = Animator.StringToHash("MovementZ");
     private const float StopDistance = 1.5f;
     
-    public ZombieFollowState(GameObject followTarget, ZombieComponent zombie, StateMachine stateMachine) : base(zombie, stateMachine)
+    public ZombieFollowState(GameObject followTarget, ZombieComponent zombie, ZombieStateMachine stateMachine) : base(zombie, stateMachine)
     {
         FollowTarget = followTarget;
         UpdateInterval = 2.0f;
@@ -25,7 +25,11 @@ public class ZombieFollowState : ZombieStates
     public override void IntervalUpdate()
     {
         base.IntervalUpdate();
-        OwnerZombie.ZombieNavMesh.SetDestination(FollowTarget.transform.position);
+        if (FollowTarget != null)
+        {
+            OwnerZombie.ZombieNavMesh.SetDestination(FollowTarget.transform.position);
+        }
+        
     }
 
     // Update is called once per frame
@@ -33,12 +37,15 @@ public class ZombieFollowState : ZombieStates
     {
         base.Update();
         OwnerZombie.ZombieAnimator.SetFloat(MovementZHash, OwnerZombie.ZombieNavMesh.velocity.normalized.z);
-        
-        float distanceBetween = Vector3.Distance(OwnerZombie.transform.position, FollowTarget.transform.position);
-       if (distanceBetween< StopDistance)
-       {
-           StateMachine.ChanceState(ZombieStateType.Attack);
-       }
+
+        if (FollowTarget != null)
+        {
+            float distanceBetween = Vector3.Distance(OwnerZombie.transform.position, FollowTarget.transform.position);
+            if (distanceBetween < StopDistance)
+            {
+                StateMachine.ChanceState(ZombieStateType.Attack);
+            }
+        }
        
        //TODO: Zombie Health < 0 Die.
         
