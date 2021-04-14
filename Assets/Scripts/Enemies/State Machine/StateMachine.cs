@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class StateMachine<T> : MonoBehaviour where T : Enum
 {
+    public T ActiveEnumState { get; private set; }
     public State<T> CurrentState { get; private set; }
     protected Dictionary<T, State<T>> States;
     private bool Running;
@@ -18,7 +19,7 @@ public class StateMachine<T> : MonoBehaviour where T : Enum
     {
         if (States.ContainsKey(startingState))
         {
-            ChanceState(startingState);
+            ChangeState(startingState);
         }
     }
 
@@ -34,7 +35,7 @@ public class StateMachine<T> : MonoBehaviour where T : Enum
         States.Remove(stateName);
     }
 
-    public void ChanceState(T nextState)
+    public void ChangeState(T nextState)
     {
         if (Running)
         {
@@ -43,6 +44,7 @@ public class StateMachine<T> : MonoBehaviour where T : Enum
 
         if (!States.ContainsKey(nextState)) return;
 
+        ActiveEnumState = nextState;
         CurrentState = States[nextState];
         CurrentState.Start();
 

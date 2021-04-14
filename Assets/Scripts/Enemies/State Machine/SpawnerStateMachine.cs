@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Health_System;
 using UnityEngine;
 
 namespace Enemies.Spawners
@@ -20,29 +21,35 @@ namespace Enemies.Spawners
 
     public class SpawnerState : State<SpawnerStateEnum>
     {
-        protected ZombieSpawner Spanwer;
+        protected ZombieSpawner Spawner;
 
         public SpawnerState(ZombieSpawner spawner, SpawnerStateMachine stateMachine)
             : base(stateMachine)
         {
-            Spanwer = spawner;
+            Spawner = spawner;
         }
 
         protected void SpawnZombie()
         {
-            GameObject zombieToSpawn = Spanwer.ZombiePrefabs[Random.Range(0, Spanwer.ZombiePrefabs.Length)];
-            SpawnerVolume spawnVolume = Spanwer.SpawnVolumes[Random.Range(0, Spanwer.SpawnVolumes.Length)];
+            GameObject zombieToSpawn = Spawner.ZombiePrefabs[Random.Range(0, Spawner.ZombiePrefabs.Length)];
+            SpawnerVolume spawnVolume = Spawner.SpawnVolumes[Random.Range(0, Spawner.SpawnVolumes.Length)];
 
             GameObject zombie = 
                 Object.Instantiate(zombieToSpawn, spawnVolume.GetPositionInBounds(), spawnVolume.transform.rotation);
 
-            zombie.GetComponent<ZombieComponent>().Initialize(Spanwer.TargetObject);
+            zombie.GetComponent<ZombieComponent>().Initialize(Spawner.TargetObject);
+            zombie.GetComponent<HealthComponent>().OnDeath += OnZombieDeath; // add to event
+        }
+
+        protected virtual void OnZombieDeath()
+        {
+
         }
     }
 
     class ZombieWaveSpawnerState : SpawnerState
     {
-        public int ZombieToSpawn = 5;
+        public int ZombiesToSpawn = 5;
         public SpawnerStateEnum NextState = SpawnerStateEnum.Intermediate;
 
         private int TotalZombiesKilled = 0;
@@ -57,10 +64,25 @@ namespace Enemies.Spawners
         {
             base.Start();
 
-            for(int i = 0; i < ZombieToSpawn; ++i)
+            for(int i = 0; i < ZombiesToSpawn; ++i)
             {
                 SpawnZombie();
             }
+        }
+
+        protected override void OnZombieDeath()
+        {
+            base.OnZombieDeath();
+            Debug.Log("Zombie killed");
+
+            TotalZombiesKilled++;
+            if(TotalZombiesKilled < ZombiesToSpawn)
+            {
+                return;
+            }
+
+            StateMachine.ChangeState(NextState);
+            Spawner.CompleteWave(NextState);
         }
     }
 }

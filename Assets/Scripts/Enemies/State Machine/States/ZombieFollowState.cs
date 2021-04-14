@@ -43,7 +43,7 @@ public class ZombieFollowState : ZombieStates
             float distanceBetween = Vector3.Distance(OwnerZombie.transform.position, FollowTarget.transform.position);
             if (distanceBetween < StopDistance)
             {
-                StateMachine.ChanceState(ZombieStateType.Attack);
+                StateMachine.ChangeState(ZombieStateType.Attack);
             }
         }
        

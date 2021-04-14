@@ -15,6 +15,8 @@ public class ZombieHealthComponent : HealthComponent
 
     public override void Destroy()
     {
-        ZombieStateMachine.ChanceState(ZombieStateType.Dead);
+        base.Destroy();
+        ZombieStateMachine.ChangeState(ZombieStateType.Dead);
+        gameObject.GetComponent<Collider>().enabled = false; //when die, disable collider
     }
 }

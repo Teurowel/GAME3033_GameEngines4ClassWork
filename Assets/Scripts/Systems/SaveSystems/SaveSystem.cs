@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UI.Menus;
 using UnityEngine;
+using static ZombieSpawner;
 
 
 //Has all data that has to be saved
@@ -13,11 +14,18 @@ using UnityEngine;
 public class GameSaveData
 {
     public PlayerSaveData PlayerSaveData;
+    public SpawnerSaveDataList SpawnerSaveDataList;
 
     public GameSaveData()
     {
         PlayerSaveData = new PlayerSaveData();
     }
+}
+
+[System.Serializable]
+public class SpawnerSaveDataList
+{
+    public List<SpawnerSaveData> SpawnerData = new List<SpawnerSaveData>();
 }
 
 public class SaveSystem : MonoBehaviour
@@ -73,6 +81,17 @@ public class SaveSystem : MonoBehaviour
         ISavable playerSaveObject = savableObjects.First(monoObject => monoObject is PlayerController) as ISavable;
         GameSave.PlayerSaveData = (PlayerSaveData)playerSaveObject?.SaveData();
 
+        //Find zombieSpawner
+        SpawnerSaveDataList spawnerList = new SpawnerSaveDataList();
+        var spawnerDataList = savableObjects.OfType<ZombieSpawner>();
+        foreach(ZombieSpawner spawner in spawnerDataList)
+        {
+            ISavable saveObject = spawner.GetComponent<ISavable>();
+            spawnerList.SpawnerData.Add(saveObject?.SaveData() as SpawnerSaveData);
+        }
+
+        GameSave.SpawnerSaveDataList = spawnerList;
+
         //convert GameSaveData to json and save it to PlayerPrefs
         string jsonString = JsonUtility.ToJson(GameSave);
         //Overwrite SelectedSaveName data
@@ -121,5 +140,11 @@ public class SaveSystem : MonoBehaviour
         //Find player controller in savableObjects and load data
         ISavable playerObject = savableObjects.First(monoObject => monoObject is PlayerController) as ISavable;
         playerObject?.LoadData(GameSave.PlayerSaveData);
+
+        foreach(SpawnerSaveData spawnerData in GameSave.SpawnerSaveDataList.SpawnerData)
+        {
+            ISavable saveObject = savableObjects.Find(savableObject => spawnerData.Name == savableObject.name) as ISavable;
+            saveObject?.LoadData(spawnerData);
+        }
     }
 }

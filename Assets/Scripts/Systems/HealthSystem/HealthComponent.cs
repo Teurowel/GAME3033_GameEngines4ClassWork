@@ -8,6 +8,9 @@ namespace Systems.Health_System
 {
     public class HealthComponent : MonoBehaviour, IDamagable
     {
+        public delegate void OnDeathEvent();
+        public event OnDeathEvent OnDeath;
+
         public float Health => CurrentHealth;
         public float MaxHealth => TotalHealth;
 
@@ -33,7 +36,8 @@ namespace Systems.Health_System
 
         public virtual void Destroy()
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            OnDeath?.Invoke();
         }
 
         public void HealPlayer(int effect)
